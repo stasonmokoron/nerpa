@@ -48,7 +48,6 @@
 				//include "getbd.inc.php";				
 				//получение массива из нормализованных слов контекста
 				$word_arr = divText(strip_tags($_GET['text']));
-				test_divText($word_arr);
 				print_r($word_arr);
 			?>
 			</p>
