@@ -1,12 +1,13 @@
 <?php
+
 if (isset($count_exec_time) && $count_exec_time) {
     $mtime = explode(" ",microtime()); 
     $tstart = $mtime[1] + $mtime[0];  // Write start time of execution
 }
 
-$root=$_SERVER["DOCUMENT_ROOT"];
+//$root=$_SERVER["DOCUMENT_ROOT"];
 $site_url="/";
-//$root="D:/all/projects/git/piwidict";
+$root="c:/server/data/htdocs";
 // $site_url="/~lalala/";
 
 $PHP_SELF=$_SERVER["PHP_SELF"];
@@ -28,15 +29,15 @@ include_once(LIB_DIR."db/mysql_util.php");
 */
 
 // dictionary classes
-include_once(LIB_DIR."PWString.php");
-include_once(LIB_DIR."PWStats.php");
 
-include_once(LIB_DIR."PWInit.php");
+//работает без этого
+//include_once(LIB_DIR."PWString.php");
+//include_once(LIB_DIR."PWStats.php");
+//include_once(LIB_DIR."PWInit.php");
+//include_once(LIB_DIR."algorithms/wsd_in_wikt/PWSemanticDistance.php");
+//include_once(LIB_DIR."export/PWGEXF.php");
 
-include_once(LIB_DIR."algorithms/wsd_in_wikt/PWSemanticDistance.php");
-
-include_once(LIB_DIR."export/PWGEXF.php");
-
+//нужные штуки
 include_once(LIB_DIR."sql/DB.php");
 include_once(LIB_DIR."sql/TLabel.php");
 include_once(LIB_DIR."sql/TLabelCategory.php");
@@ -56,10 +57,12 @@ include_once(LIB_DIR."sql/semantic_relations/PWLemma.php");
 include_once(LIB_DIR."sql/semantic_relations/PWRelatedWords.php");
 include_once(LIB_DIR."sql/semantic_relations/PWShortPath.php");
 
-include_once(LIB_DIR."widget/WForm.php");
+//работает без этого
+//include_once(LIB_DIR."widget/WForm.php");
 
 // PhpMorphy
-include_once(SITE_ROOT."phpmorphy/src/common.php");
+include "phpmorphy.inc.php";
+//include_once(SITE_ROOT."phpmorphy/src/common.php");
 
 foreach ($_REQUEST as $var=>$value) {
 /*
@@ -73,11 +76,11 @@ TODO!!! check vars
  * Init constants and variables
  *******************************/
 
-define ('NAME_DB','ruwikt20140904_parsed');
+define ('NAME_DB','ruwik');
 $config['hostname']   = 'localhost';
 $config['dbname']     = NAME_DB;
-$config['user_login']      = 'pw_user';
-$config['user_password']   = '';
+$config['user_login']      = 'st1';
+$config['user_password']   = '1234';
 $config['admin_login']      = 'pw_admin';
 $config['admin_password']   = '';
 ## DB connection 
@@ -93,5 +96,6 @@ PWLemma::setLangCode(LangCode);
 PWRelatedWords::setLangCode(LangCode);
 PWShortPath::setLangCode(LangCode);
 
-include_once(LIB_DIR."multi/".LangCode."/WMeaning.php");
+// из-за этого слетают стили
+//include_once(LIB_DIR."multi/".LangCode."/WMeaning.php");
 ?>

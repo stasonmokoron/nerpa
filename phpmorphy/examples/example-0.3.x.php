@@ -1,4 +1,4 @@
-<?php
+Ôªø<?php
 error_reporting(E_ALL | E_STRICT);
 
 // first we include phpmorphy library
@@ -33,7 +33,7 @@ try {
 // All words in dictionary in UPPER CASE, so don`t forget set proper locale via setlocale(...) call
 // $morphy->getEncoding() returns dictionary encoding
 
-$words = array(' –¿ Œ«ﬂ¡À» »', '—“¿À»', '¬»Õ¿', '»', 'ƒ”’»', 'abc');
+$words = array('–ö–†–ê–ö–û–ó–Ø–ë–õ–ò–ö–ò', '–°–¢–ê–õ–ò', '–í–ò–ù–ê', '–ò', '–î–£–•–ò', 'abc');
 
 if(function_exists('iconv')) {
     foreach($words as &$word) {
