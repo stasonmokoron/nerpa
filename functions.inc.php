@@ -21,7 +21,7 @@
 								$sch++;
 							} 					
 			}
-			if ($sch==0){$flag=false;}
+			if ($sch==0)$flag=false;
 		}	
 		foreach ($arr as $mas){
 			if (substr_count($mas, ' ')>0 or
@@ -49,9 +49,5 @@
 			}
 		}
 		return $one;
-	}
-	
-	function test_divText($arr){
-		if (gettype($arr)!="array") throw new Exception('test_divText: Не получен массив!');
 	}
 ?>
