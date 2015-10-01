@@ -41,9 +41,11 @@
 		$i = 0;
 		foreach($a as &$mass){
 			foreach($mass as &$m){
-				$m = mb_strtolower($m);
-				$one[$i] = $m;
-				$i++;
+			$m = mb_strtolower($m);
+				if (strlen($m)>2){
+					$one[$i] = $m;
+					$i++;
+				}
 			}
 		}
 		return $one;
