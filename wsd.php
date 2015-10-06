@@ -1,8 +1,7 @@
 ﻿<?php
 	error_reporting( E_ERROR ); 
 	include "config.php";
-	//include "functions.inc.php";
-	include "splitter.php";
+	include_once "splitter.php";
 	
 	// получеие максимального значения отправляемого файла
 	$size = ini_get("post_max_size"); // 100M
@@ -48,14 +47,10 @@
 			<?php 					
 				//include "getbd.inc.php";				
 				
-				//получение массива из нормализованных слов контекста
-				//$word_arr = divText(strip_tags($_GET['text']));
-				
 				$div_word = new Splitter;
 				$div_word->txt=strip_tags($_GET['text']);
-				$word_arr=$div_word->divideText();
-				
-				echo $div_word->txt."<br/>";
+				$word_arr=$div_word->DivideText($div_word->txt);				
+				echo $div_word->txt."<br/><br/>";
 				print_r($word_arr);
 			?>
 			</p>

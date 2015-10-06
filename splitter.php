@@ -1,12 +1,12 @@
 <?php
 	class Splitter{
 		public $txt;
-		function divideText(){
+		public function DivideText($tx){
 			include "phpmorphy.inc.php";
-			$this->txt = mb_strtoupper($this->txt);
+			$tx = mb_strtoupper($tx);
 			
 			//деление текста на слова
-			$arr = explode(" ", $this->txt);
+			$arr = explode(" ", $tx);
 			$flag=true;
 			while ($flag){
 				$sch=0;
@@ -25,15 +25,6 @@
 				}
 				if ($sch==0)$flag=false;
 			}	
-			foreach ($arr as $mas){
-				if (substr_count($mas, ' ')>0 or
-					substr_count($mas, '.')>0 or
-					substr_count($mas, ',')>0 or
-					substr_count($mas, ';')>0 or
-					substr_count($mas, '!')>0 or
-					substr_count($mas, '?')>0 or
-					substr_count($mas, ':')>0) throw new Exception('test_divText: Лишний символ!');
-			}
 			
 			//нормализация
 			$a = $morphy->lemmatize($arr);

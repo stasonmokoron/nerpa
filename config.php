@@ -30,12 +30,14 @@ include_once(LIB_DIR."db/mysql_util.php");
 
 // dictionary classes
 
-//include_once(LIB_DIR."PWString.php");
-//include_once(LIB_DIR."PWStats.php");
-//include_once(LIB_DIR."PWInit.php");
-//include_once(LIB_DIR."algorithms/wsd_in_wikt/PWSemanticDistance.php");
-//include_once(LIB_DIR."export/PWGEXF.php");
+//работает без этого
+include_once(LIB_DIR."PWString.php");
+include_once(LIB_DIR."PWStats.php");
+include_once(LIB_DIR."PWInit.php");
+include_once(LIB_DIR."algorithms/wsd_in_wikt/PWSemanticDistance.php");
+include_once(LIB_DIR."export/PWGEXF.php");
 
+//нужные штуки
 include_once(LIB_DIR."sql/DB.php");
 include_once(LIB_DIR."sql/TLabel.php");
 include_once(LIB_DIR."sql/TLabelCategory.php");
@@ -55,7 +57,8 @@ include_once(LIB_DIR."sql/semantic_relations/PWLemma.php");
 include_once(LIB_DIR."sql/semantic_relations/PWRelatedWords.php");
 include_once(LIB_DIR."sql/semantic_relations/PWShortPath.php");
 
-//include_once(LIB_DIR."widget/WForm.php");
+//работает без этого
+include_once(LIB_DIR."widget/WForm.php");
 
 // PhpMorphy
 include "phpmorphy.inc.php";
@@ -93,5 +96,6 @@ PWLemma::setLangCode(LangCode);
 PWRelatedWords::setLangCode(LangCode);
 PWShortPath::setLangCode(LangCode);
 
+// из-за этого слетают стили
 //include_once(LIB_DIR."multi/".LangCode."/WMeaning.php");
 ?>
