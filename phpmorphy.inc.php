@@ -3,6 +3,8 @@
 	// если используется иная версия исправьте код.
 	require_once('c:/server/bin/PHP/lib/phpmorphy-0.3.7/src/common.php');
 	 
+	//global $morphy;
+	
 	// Укажите путь к каталогу со словарями
 	$dir = 'c:/server/bin/PHP/lib/phpmorphy-0.3.7/dicts';
 	 
@@ -15,9 +17,9 @@
 	// Укажите опции
 	// Список поддерживаемых опций см. ниже
 	$opts = array(
-		'storage' => PHPMORPHY_STORAGE_FILE,
+		'storage' => PHPMORPHY_STORAGE_MEM,
 		'predict_by_suffix' => TRUE,
-		'predict_by_db' => TRUE,
+		//'predict_by_db' => TRUE,
 	);
 	 
 	// создаем экземпляр класса phpMorphy
@@ -25,9 +27,11 @@
 	// могут возбуждать исключения типа phpMorphy_Exception (конструктор тоже)
 	try {
 		$morphy = new phpMorphy($dir, $lang, $opts);
+		print_r($morphy->lemmatize('яблоко', phpMorphy::NORMAL));
+		//exit(0);
 	} catch(phpMorphy_Exception $e) {
 		die('Error occured while creating phpMorphy instance: ' . $e->getMessage());
 	}
-	 
+	
 	// далее под $morphy мы подразумеваем экземпляр класса phpMorphy
 ?>

@@ -1,8 +1,10 @@
 <?php
+	require_once "phpmorphy.inc.php";
+	
 	class Splitter{
 		public $txt;
 		public function DivideText($tx){
-			include "phpmorphy.inc.php";
+			global $morphy;
 			$tx = mb_strtoupper($tx);
 			
 			//деление текста на слова
@@ -21,7 +23,7 @@
 								$ch==":"){
 									$mass = substr($mass,0,strlen($mass)-1);
 									$sch++;
-								} 					
+								}
 				}
 				if ($sch==0)$flag=false;
 			}	
@@ -34,7 +36,7 @@
 			$i = 0;
 			foreach($a as &$mass){
 				foreach($mass as &$m){
-				$m = mb_strtolower($m);
+					$m = mb_strtolower($m);
 					if (strlen($m)>2){
 						$one[$i] = $m;
 						$i++;

@@ -2,6 +2,7 @@
 	error_reporting( E_ERROR ); 
 	include "config.php";
 	include_once "splitter.php";
+	include_once "word.php";
 	
 	// получеие максимального значения отправляемого файла
 	$size = ini_get("post_max_size"); // 100M
@@ -45,13 +46,42 @@
 		<section>
 			<p>
 			<?php 					
-				//include "getbd.inc.php";				
+				//include "getbd.inc.php";	
 				
 				$div_word = new Splitter;
 				$div_word->txt=strip_tags($_GET['text']);
-				$word_arr=$div_word->DivideText($div_word->txt);				
-				echo $div_word->txt."<br/><br/>";
+				$word_arr=$div_word->DivideText($div_word->txt);	
+				
+				//************************
+				$i=0;
+				$mean[] = array();
+				foreach($word_arr as $wordd){
+					$mean[$i] = new Word;
+					$mean[$i]->name = $wordd;
+					//--------------------------------------------
+					$pageObj_arr = Tpage::getByTitle($wordd);
+					if (is_array($pageObj_arr)) foreach ($pageObj_arr as $pageObj) {
+						$lang_pos_arr = $pageObj -> getLangPOS();
+						if (is_array($lang_pos_arr)) foreach ($lang_pos_arr as $langPOSObj) {													
+							$meaning_arr = $langPOSObj -> getMeaning();
+							//$count_meaning = 1;
+							if (is_array($meaning_arr)) foreach ($meaning_arr as $meaningObj) {
+								$meaning_id = $meaningObj->getID();
+								// MEANING
+								$mean[$i]->me[] = join(', ',$label_name_arr). " ". $meaningObj->getWikiText()->getText();
+								$mean[$i]->arr_me[] = $div_word->DivideText(join(', ',$label_name_arr). " ". $meaningObj->getWikiText()->getText());
+							}
+						}
+					}
+					//--------------------------------------------
+					$i++;
+				}
+				//************************
+				
+				//include "meaning.php";
 				print_r($word_arr);
+				echo "<br/><br/>";
+				print_r($mean[1]);
 			?>
 			</p>
 		</section>
