@@ -3,6 +3,7 @@
 	include "config.php";
 	include_once "splitter.php";
 	include_once "word.php";
+	include_once "meaning.inc.php";
 	
 	// получеие максимального значения отправляемого файла
 	$size = ini_get("post_max_size"); // 100M
@@ -47,7 +48,6 @@
 			<p>
 			<?php 					
 				//include "getbd.inc.php";	
-				
 				$div_word = new Splitter;
 				$div_word->txt=strip_tags($_GET['text']);
 				$word_arr=$div_word->DivideText($div_word->txt);	
@@ -64,12 +64,19 @@
 						$lang_pos_arr = $pageObj -> getLangPOS();
 						if (is_array($lang_pos_arr)) foreach ($lang_pos_arr as $langPOSObj) {													
 							$meaning_arr = $langPOSObj -> getMeaning();
-							//$count_meaning = 1;
 							if (is_array($meaning_arr)) foreach ($meaning_arr as $meaningObj) {
 								$meaning_id = $meaningObj->getID();
 								// MEANING
-								$mean[$i]->me[] = join(', ',$label_name_arr). " ". $meaningObj->getWikiText()->getText();
-								$mean[$i]->arr_me[] = $div_word->DivideText(join(', ',$label_name_arr). " ". $meaningObj->getWikiText()->getText());
+
+								//создание массива из значений слов
+								$wikiText = $meaningObj->getWikiText()->getText();
+								$mean[$i]->me[] = $wikiText;
+								
+								//создание массива из объектов значений слов в нормализованном виде
+								$mean[$i]->arr_me[$j] = new Meaning;
+								$mean[$i]->arr_me[$j]->arr_senseLemmatize($wikiText);
+								
+								$j++;
 							}
 						}
 					}
@@ -78,10 +85,20 @@
 				}
 				//************************
 				
+				foreach($word_arr as &$wordd){
+					foreach($mean as $me){
+						if ($me->Choose($wordd,$me->arr_me)!=NULL){
+							$c=$me->Choose($wordd,$me->arr_me);
+						}
+					}
+				}
+				
 				//include "meaning.php";
 				print_r($word_arr);
 				echo "<br/><br/>";
-				print_r($mean[1]);
+				print_r($mean);
+				echo "<br/><br/>";
+				print_r($c);
 			?>
 			</p>
 		</section>
