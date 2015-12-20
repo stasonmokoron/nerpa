@@ -8,31 +8,33 @@
 		public $me;
 		
 		//массив объектов, свойствами которых являются значения слова в виде массива (массив из нормализованных слов)
-		public $arr_me;
+		public $arr_meaning;
 		
 		//функция проверки вхождения леммы targetWord в текст 
 		//возвращать массив объектов
 		
 		/**
-		* Checks that $targetWord is presented in $arrText, returns objects from $arrText with $targetWord.
+		* Gets array of objects Meanings from $arr_meaning with $lemma.
+		* Attention: property $arr_meaning should be initialized before.
 		*
-		* @param string $targetWord searching lemma
-		* @param array $arrText array of array of string which are lemmatized words from definitions
-		* @return array array of Meanings
+		* @param string $lemma searching lemma
+		* @return array of Meanings objects
 		*/	
-		function Choose($targetWord, $arrText){
-			global $i, $num;
-			$i=0;
-			$num=[];
-			foreach($arrText as $arr){
-				$f=false;
-				foreach($arr->arr_sense as $a){
-					if($a==$targetWord){$f=true;}
+		public function getMeaningsArrayWithLemma($lemma){
+			$result_meanings=array();
+			if (count($this->arr_meaning)==0) {
+					return array();
 				}
-				$i++;
-				if ($f){$num[]=$i;}
+				
+			$sh=0;
+			foreach($this->arr_meaning as &$meaning_obj){
+				if($meaning_obj->hasLemma($lemma)){
+					
+					array_push($result_meanings, $this->me[$sh]);
+				}
+				$sh++;
 			}
-			return $num;
+			return $result_meanings;
 		}
 	}
 ?>

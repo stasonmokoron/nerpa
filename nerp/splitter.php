@@ -3,6 +3,13 @@
 	
 	class Splitter{
 		public $txt;
+		
+		/**
+		* division $tx into words, removing punctuation marks, lemmatization
+		*
+		* @param string $tx input text
+		* @return array of words
+		*/	
 		public function DivideText($tx){
 			global $morphy;
 			$tx = mb_strtoupper($tx);

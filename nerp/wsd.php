@@ -54,7 +54,7 @@
 				
 				//************************
 				$i=0;
-				$mean[] = array();
+				//$mean[] = array();
 				foreach($word_arr as $wordd){
 					$mean[$i] = new Word;
 					$mean[$i]->name = $wordd;
@@ -73,8 +73,8 @@
 								$mean[$i]->me[] = $wikiText;
 								
 								//создание массива из объектов значений слов в нормализованном виде
-								$mean[$i]->arr_me[$j] = new Meaning;
-								$mean[$i]->arr_me[$j]->arr_senseLemmatize($wikiText);
+								$mean[$i]->arr_meaning[$j] = new Meaning;
+								$mean[$i]->arr_meaning[$j]->setArrLemmasLemmatizeText($wikiText);
 								
 								$j++;
 							}
@@ -85,10 +85,16 @@
 				}
 				//************************
 				
+				$word_occurrences = array();
 				foreach($word_arr as &$wordd){
-					foreach($mean as $me){
-						if ($me->Choose($wordd,$me->arr_me)!=NULL){
-							$c=$me->Choose($wordd,$me->arr_me);
+					foreach($mean as &$word_obj){
+						$meanings_array_with_lemma = $word_obj->getMeaningsArrayWithLemma($wordd);
+						
+						if(count($meanings_array_with_lemma)>0){
+							$w = new Word;
+							$w -> name = $wordd;
+							$w -> me = $meanings_array_with_lemma;
+							array_push($word_occurrences, $w);
 						}
 					}
 				}
@@ -97,8 +103,9 @@
 				print_r($word_arr);
 				echo "<br/><br/>";
 				print_r($mean);
+				
 				echo "<br/><br/>";
-				print_r($c);
+				print_r($word_occurrences);
 			?>
 			</p>
 		</section>
