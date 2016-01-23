@@ -4,6 +4,7 @@
 	include_once "splitter.php";
 	include_once "word.php";
 	include_once "meaning.inc.php";
+	include_once "chains.php";
 	
 	// получеие максимального значения отправляемого файла
 	$size = ini_get("post_max_size"); // 100M
@@ -69,7 +70,8 @@
 								// MEANING
 
 								//создание массива из значений слов
-								$wikiText = $meaningObj->getWikiText()->getText();
+								if (null!==$meaningObj->getWikiText()->getText()){
+								$wikiText = $meaningObj->getWikiText()->getText();}
 								$mean[$i]->me[] = $wikiText;
 								
 								//создание массива из объектов значений слов в нормализованном виде
@@ -86,15 +88,55 @@
 				//************************
 				
 				$word_occurrences = array();
+				$chains = array();
 				foreach($word_arr as &$wordd){
-					foreach($mean as &$word_obj){
-						$meanings_array_with_lemma = $word_obj->getMeaningsArrayWithLemma($wordd);
-						
-						if(count($meanings_array_with_lemma)>0){
-							$w = new Word;
-							$w -> name = $wordd;
-							$w -> me = $meanings_array_with_lemma;
-							array_push($word_occurrences, $w);
+					foreach($mean as &$word_obj){	
+						if ($wordd!=$word_obj->name){
+							$meanings_array_with_lemma = $word_obj->getMeaningsArrayWithLemma($wordd);
+							if(count($meanings_array_with_lemma)>0){
+								$w = new Word;
+								$w -> name = $wordd;
+								$w -> name_related_word = $word_obj->name;
+								$w -> me = $meanings_array_with_lemma;
+								array_push($word_occurrences, $w);
+								//--------------
+								
+								$k=0;
+								foreach($meanings_array_with_lemma as &$arr_w_le){
+									$wr[$k] = new Word;
+									$wr[$k]->name = $wordd;
+									$wr[$k]->name_related_word = $word_obj->name;
+									$wr[$k]->me = $arr_w_le;
+									$wr[$k]->arr_me = $div_word->DivideText($arr_w_le);
+									$k++;
+								}
+								$k=0;
+								foreach($wr as $re){
+									if(count($chains) == 0){
+										$chains[$k] = new Chain;
+										$chains[$k]->number = 1;
+										$chains[$k]->words = $re;
+										$k++;
+									}else{
+										//print_r($chains);
+										foreach($chains as $ch){
+											//if (null==$ch){print("null");}
+											if($ch->hasWord($re)){
+												//$ch->words = $re;
+												array_push($ch->words, $re);
+											}else{
+												//создание новой цепочки
+												$new_chain = new Chain;
+												$new_chain->number = count($chains)+1;
+												$new_chain->words = $re;
+											}
+										}
+										array_push($chains, $new_chain);
+									}
+								}
+								
+								//--------------
+							}
 						}
 					}
 				}
@@ -103,9 +145,11 @@
 				print_r($word_arr);
 				echo "<br/><br/>";
 				print_r($mean);
+				echo "<br/><br/>";
+				print_r($word_occurrences);	
 				
 				echo "<br/><br/>";
-				print_r($word_occurrences);
+				print_r($chains);	
 			?>
 			</p>
 		</section>
