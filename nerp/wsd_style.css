@@ -41,7 +41,7 @@ body>div{
 				}
 header{
 			background: royalblue;
-			height:3em;
+			height:3.5em;
 			border-radius:0px 0px 10px 10px;
 			box-shadow: 0 8px 5px -5px #777;
 			}
@@ -50,15 +50,27 @@ header h1{
 					font: 110% Georgia, "Times New Roman", serif;
 					color: white;
 					margin-right:2em;
-					margin-top:0.8em;
+					margin-top:1em;
 					}	
 section{
 				width:27em;
 				text-align:left;							
 				}
+img{
+				width:130px;
+				height:80px;							
+				}				
+				
+#outputtext{
+	padding-top:1.5em;
+}
 #max{ 
 			float: left;
 			padding-left:1em;
 			font: 90% Georgia, "Times New Roman", serif;
 			color:gray;
 			}
+#image{
+	float: left;
+	padding-left:3.5em;
+}

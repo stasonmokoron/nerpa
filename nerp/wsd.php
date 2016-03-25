@@ -26,6 +26,9 @@
 	</head>
 	<body>
 	<div>
+	<div id="image">
+	<img src="image/nerpa.png"> 
+	</div>
 	<header>
 		<h1>Разрешение лексической многозначности на основе Русского Викисловаря</h1>
 	</header>
@@ -46,7 +49,7 @@
 				</fieldset>
 			</form>
 		<section>
-			<p>
+			<p id="outputtext">
 			<?php 					
 				//include "getbd.inc.php";	
 				$div_word = new Splitter;
@@ -110,7 +113,10 @@
 									$wr[$k]->arr_me = $div_word->DivideText($arr_w_le);
 									$k++;
 								}
-								$k=0;
+								
+								
+								//$chains=Chain::CreateChains($wr);
+                                $k=0;
 								foreach($wr as $re){
 									if(count($chains) == 0){
 										$chains[$k] = new Chain;
