@@ -91,71 +91,83 @@
 				//************************
 				
 				$word_occurrences = array();
-				$chains = array();
-				foreach($word_arr as &$wordd){
-					foreach($mean as &$word_obj){	
+				$chains = array();$k=0;
+				foreach($word_arr as $wordd){
+					foreach($mean as $word_obj){	
 						if ($wordd!=$word_obj->name){
 							$meanings_array_with_lemma = $word_obj->getMeaningsArrayWithLemma($wordd);
 							if(count($meanings_array_with_lemma)>0){
 								$w = new Word;
-								$w -> name = $wordd;
-								$w -> name_related_word = $word_obj->name;
+								$w -> name = $word_obj->name;
+								$w -> name_related_word = $wordd;
 								$w -> me = $meanings_array_with_lemma;
 								array_push($word_occurrences, $w);
 								//--------------
 								
-								$k=0;
+								//$k=0;
 								foreach($meanings_array_with_lemma as &$arr_w_le){
 									$wr[$k] = new Word;
-									$wr[$k]->name = $wordd;
-									$wr[$k]->name_related_word = $word_obj->name;
+									$wr[$k]->name = $word_obj->name;
+									$wr[$k]->name_related_word = $wordd;
 									$wr[$k]->me = $arr_w_le;
 									$wr[$k]->arr_me = $div_word->DivideText($arr_w_le);
 									$k++;
 								}
-								
-								
-								//$chains=Chain::CreateChains($wr);
-                                $k=0;
-								foreach($wr as $re){
-									if(count($chains) == 0){
-										$chains[$k] = new Chain;
-										$chains[$k]->number = 1;
-										$chains[$k]->words = $re;
-										$k++;
-									}else{
-										//print_r($chains);
-										foreach($chains as $ch){
-											//if (null==$ch){print("null");}
-											if($ch->hasWord($re)){
-												//$ch->words = $re;
-												array_push($ch->words, $re);
-											}else{
-												//создание новой цепочки
-												$new_chain = new Chain;
-												$new_chain->number = count($chains)+1;
-												$new_chain->words = $re;
-											}
-										}
-										array_push($chains, $new_chain);
-									}
-								}
-								
-								//--------------
 							}
 						}
 					}
 				}
+							
+				//----------------------------------------------------------
+								//$chains=Chain::CreateChains($wr);
+                                
+								
+								//$name=$re->name;
+								if (count($chains) == 0){
+									$j=0;
+									foreach($wr as $w){
+										$chains[$j] = new Chain;
+										//array_push($chains[$j]->words, $w);
+										$chains[$j]->words = array($w);
+										$j++;
+									}
+								}
+								
+								foreach($wr as $re){
+									foreach($chains as $ch){
+										$iden = false;
+										foreach ($ch->words as $ws){
+											foreach($ws->arr_me as $arr){
+												if($re->name == $arr){
+													$iden = true;
+													$prov="yes";
+												}
+											}
+										}
+										if ($iden){array_push($ch->words, $re);}
+									}
+								}
+								
+								
+				//-------------------------------------------------------------------
+							
+						
+					
+				
 				
 				//include "meaning.php";
 				print_r($word_arr);
-				echo "<br/><br/>";
-				print_r($mean);
-				echo "<br/><br/>";
-				print_r($word_occurrences);	
+				//echo "<br/><br/>";
+				//print_r($mean);
+				//echo "<br/><br/>";
+				//print_r($word_occurrences);	
 				
 				echo "<br/><br/>";
-				print_r($chains);	
+				print_r($wr);
+				echo "<br/><br/>";
+				print_r($chains);
+				echo "<br/><br/>";
+				echo $prov;
 			?>
 			</p>
 		</section>
